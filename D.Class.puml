@@ -1,0 +1,137 @@
+@startuml
+' ------------------------------------------
+' ENUMS
+' ------------------------------------------
+
+enum UserRole {
+  ADMIN
+  CLIENT
+}
+
+enum NiveauClient {
+  BASIC
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum StatutCommande {
+  PENDING
+  CONFIRMED
+  CANCELED
+  REJECTED
+}
+
+enum StatutPaiement {
+  EN_ATTENTE
+  ENCAISSE
+  REJETE
+}
+
+enum TypePaiement {
+  ESPECES
+  CHEQUE
+  VIREMENT
+}
+
+' ------------------------------------------
+' ENTITÉS
+' ------------------------------------------
+
+abstract class Utilisateur {
+  + id: Long
+  + nomUtilisateur: String
+  + motDePasse: String
+  + nom: String
+  + email: String
+  --
+  + role: UserRole
+}
+
+class Admin {
+}
+
+class Client {
+  --
+  + niveauFidelite: NiveauClient
+  + totalCommandesConfirmees: Integer
+  + montantCumule: BigDecimal
+  + datePremiereCommande: Date
+  + dateDerniereCommande: Date
+}
+
+class Produit {
+  + id: Long
+  + nom: String
+  + prixUnitaire: BigDecimal
+  + stockDisponible: Integer
+  + estSupprime: Boolean
+}
+
+class Commande {
+  + id: Long
+  + dateCommande: Date
+  -- Attributs Financiers (Calculs) --
+  + sousTotalHT: BigDecimal
+  + montantRemiseFidelite: BigDecimal
+  + montantRemisePromo: BigDecimal
+  + montantRemiseTotal: BigDecimal
+  + montantHTApresRemise: BigDecimal
+  + montantTVA: BigDecimal
+  + totalTTC: BigDecimal
+  -- Attributs de Statut et Suivi --
+  + codePromo: String
+  + statut: StatutCommande
+  + montantRestant: BigDecimal
+}
+
+class ArticleCommande {
+  + id: Long
+  + quantite: Integer
+  + prixUnitaireSnapshot: BigDecimal
+  + totalLigne: BigDecimal
+}
+
+class Paiement {
+  + id: Long
+  + numeroPaiement: Integer
+  + montant: BigDecimal
+  + typePaiement: TypePaiement
+  + datePaiement: Date
+  + dateEncaissement: Date
+  -- Attributs Spécifiques (Optionnels) --
+  + numeroCheque: String
+  + nomBanque: String
+  + dateEcheance: Date
+  + reference: String
+  + statut: StatutPaiement
+}
+
+' ------------------------------------------
+' RELATIONS (Cardinalités Conceptuelles)
+' ------------------------------------------
+
+' 1. Héritage (Single Table)
+Utilisateur <|-- Admin
+Utilisateur <|-- Client
+
+' 2. Client / Commande
+Client "1" -- "*" Commande : passe
+
+' 3. Commande / Articles (Composition)
+Commande "1" *-- "*" ArticleCommande : contient
+
+' 4. Produit / Articles (Utilisation/Historique)
+Produit "1" -- "*" ArticleCommande : estInclusDans
+
+' 5. Commande / Paiements (Paiements Fractionnés)
+Commande "1" -- "*" Paiement : estPayeePar
+
+' Relations aux Enums
+Utilisateur --> UserRole
+Client --> NiveauClient
+Commande --> StatutCommande
+Paiement --> TypePaiement
+Paiement --> StatutPaiement
+
+@enduml
