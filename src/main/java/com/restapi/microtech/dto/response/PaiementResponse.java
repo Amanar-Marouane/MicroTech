@@ -4,11 +4,12 @@ import com.restapi.microtech.entity.enums.StatutPaiement;
 import com.restapi.microtech.entity.enums.TypePaiement;
 import lombok.Data;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 public class PaiementResponse {
-    
+
     private Long id;
     private Integer numeroPaiement;
     private BigDecimal montant;
@@ -20,4 +21,6 @@ public class PaiementResponse {
     private Date dateEcheance;
     private String nomBanque;
     private String reference;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

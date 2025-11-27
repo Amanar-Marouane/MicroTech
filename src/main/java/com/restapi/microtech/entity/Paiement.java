@@ -1,16 +1,21 @@
 package com.restapi.microtech.entity;
 
+import com.restapi.microtech.custom.CreatedAt;
+import com.restapi.microtech.custom.UpdatedAt;
+import com.restapi.microtech.custom.listeners.AuditListener;
 import com.restapi.microtech.entity.enums.StatutPaiement;
 import com.restapi.microtech.entity.enums.TypePaiement;
 import jakarta.validation.constraints.*;
-import jakarta.persistence.Id;
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import jakarta.persistence.*;
 
 @Entity
-@Data
+@EntityListeners(AuditListener.class)
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,4 +55,10 @@ public class Paiement {
     private Date dateEcheance;
     private String nomBanque;
     private String reference;
+
+    @CreatedAt
+    private LocalDateTime createdAt;
+
+    @UpdatedAt
+    private LocalDateTime updatedAt;
 }

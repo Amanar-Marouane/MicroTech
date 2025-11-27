@@ -1,0 +1,18 @@
+### Add a payment to an order
+POST http://localhost:8080/api/commandes/3/payments
+Content-Type: application/json
+
+{
+  "montant": 1500,
+  "typePaiement": "ESPECES",
+  "reference": "RECU-001"
+}
+
+### Update payment status to ENCAISSE (counts toward remaining amount)
+POST http://localhost:8080/api/commandes/payments/5/status
+Content-Type: application/json
+
+{
+  "statut": "ENCAISSE",
+  "dateEncaissement": "2025-11-26T00:00:00.000+00:00"
+}
