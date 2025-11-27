@@ -1,0 +1,31 @@
+### Create a new product
+POST http://localhost:8080/api/produits
+Content-Type: application/json
+
+{
+  "nom": "Smartphone Y",
+  "prixUnitaire": 499.99,
+  "stockDisponible": 25
+}
+
+### Get product by ID
+GET http://localhost:8080/api/produits/2
+
+### Search products (pagination + filters)
+GET http://localhost:8080/api/produits?start=0&size=10&nom=phone&prixMin=100&prixMax=600&stockMin=1&stockMax=100
+
+### Search products (pagination only)
+GET http://localhost:8080/api/produits?start=0&size=5
+
+### Update a product
+PUT http://localhost:8080/api/produits/2
+Content-Type: application/json
+
+{
+  "nom": "Smartphone X (2025)",
+  "prixUnitaire": 529.99,
+  "stockDisponible": 30
+}
+
+### Delete a product
+DELETE http://localhost:8080/api/produits/1

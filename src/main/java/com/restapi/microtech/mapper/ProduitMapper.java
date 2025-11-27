@@ -11,7 +11,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface ProduitMapper {
 
-    @Mapping(target = "estSupprime", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "id", ignore = true)
     Produit toEntity(ProduitRequest request);
 
@@ -19,7 +19,7 @@ public interface ProduitMapper {
 
     ProduitSimple toSimple(Produit produit);
 
-    @Mapping(target = "estSupprime", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "id", ignore = true)
     void updateEntity(ProduitRequest request, @MappingTarget Produit produit);
 }

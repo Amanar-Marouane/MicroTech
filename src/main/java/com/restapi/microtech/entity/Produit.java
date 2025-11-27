@@ -2,19 +2,28 @@ package com.restapi.microtech.entity;
 
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.restapi.microtech.custom.CreatedAt;
+import com.restapi.microtech.custom.UpdatedAt;
+import com.restapi.microtech.custom.listeners.AuditListener;
+
 @Entity
-@Data
+@EntityListeners(AuditListener.class)
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "produit")
-@SQLDelete(sql = "UPDATE produit SET est_supprime = true WHERE id = ?")
-@SQLRestriction("est_supprime = false")
+@SQLDelete(sql = "UPDATE produit SET supprime_a = now() WHERE id = ?")
+@SQLRestriction("supprime_a is NULL")
 public class Produit {
 
     @Id
@@ -32,7 +41,12 @@ public class Produit {
     @Min(value = 0, message = "Le stock ne peut pas être négatif")
     private Integer stockDisponible;
 
-    @Column(name = "est_supprime")
-    @Builder.Default
-    private Boolean estSupprime = false;
+    @CreatedAt
+    private LocalDateTime createdAt;
+
+    @UpdatedAt
+    private LocalDateTime updatedAt;
+
+    @Column(name = "supprime_a")
+    private LocalDateTime deletedAt;
 }
