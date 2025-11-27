@@ -20,6 +20,7 @@ public interface ClientMapper {
     @Mapping(target = "commandes", ignore = true)
     Client toEntity(ClientRequest request);
     
+    @Mapping(target = "commandes", ignore = true)
     ClientResponse toResponse(Client client);
     
     ClientSimple toSimple(Client client);

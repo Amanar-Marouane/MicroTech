@@ -1,12 +1,19 @@
 package com.restapi.microtech.entity;
 
+import java.time.LocalDateTime;
+
+import com.restapi.microtech.custom.CreatedAt;
+import com.restapi.microtech.custom.UpdatedAt;
+import com.restapi.microtech.custom.listeners.AuditListener;
 import com.restapi.microtech.entity.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Data
+@EntityListeners(AuditListener.class)
+@Getter
+@Setter
 @Table(name = "utilisateur")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
@@ -35,5 +42,11 @@ public abstract class Utilisateur {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @CreatedAt
+    private LocalDateTime createdAt;
+
+    @UpdatedAt
+    private LocalDateTime updatedAt;
 
 }

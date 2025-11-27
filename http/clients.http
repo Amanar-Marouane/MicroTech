@@ -1,0 +1,44 @@
+### Create a new client
+POST http://localhost:8080/api/clients
+Content-Type: application/json
+
+{
+  "nomUtilisateur": "jdoe",
+  "motDePasse": "password123",
+  "nom": "John Doe",
+  "email": "jdoe@example.com",
+  "niveauFidelite": "BASIC"
+}
+
+### Get all clients
+GET http://localhost:8080/api/clients
+
+### Get client by ID
+GET http://localhost:8080/api/clients/4
+
+### Get client profile (lean, no orders)
+GET http://localhost:8080/api/clients/4/profile
+
+### Get client loyalty tier
+GET http://localhost:8080/api/clients/4/loyalty-tier
+
+### Get client statistics
+GET http://localhost:8080/api/clients/4/stats
+
+### Get client order history
+GET http://localhost:8080/api/clients/4/orders
+
+### Update client
+PUT http://localhost:8080/api/clients/4
+Content-Type: application/json
+
+{
+  "nomUtilisateur": "jdoe",
+  "motDePasse": "newpassword456",
+  "nom": "John Doe Updated",
+  "email": "jdoe@example.com",
+  "niveauFidelite": "PLATINUM"
+}
+
+### Delete client
+DELETE http://localhost:8080/api/clients/4
