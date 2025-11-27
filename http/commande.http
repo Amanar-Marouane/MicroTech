@@ -1,0 +1,35 @@
+### Create a new order for a client (multi-products)
+POST http://localhost:8080/api/commandes/clients/4
+Content-Type: application/json
+
+{
+  "articles": [
+    { "produitId": 3, "quantite": 2 },
+    { "produitId": 2, "quantite": 1 }
+  ],
+  "codePromo": "PROMO-AB12"
+}
+
+### Create a new order WITHOUT promo code (no promo discount applied)
+# When you omit codePromo, the promo discount is not applied.
+POST http://localhost:8080/api/commandes/clients/4
+Content-Type: application/json
+
+{
+  "articles": [
+    { "produitId": 3, "quantite": 2 },
+    { "produitId": 2, "quantite": 1 }
+  ]
+}
+
+### Get order by ID
+GET http://localhost:8080/api/commandes/1
+
+### Search orders (pagination + filters)
+GET http://localhost:8080/api/commandes?start=0&size=10&clientId=1&statut=PENDING&totalMin=100&totalMax=10000
+
+### Confirm order (requires montantRestant = 0)
+POST http://localhost:8080/api/commandes/1/confirm
+
+### Cancel order (only if PENDING)
+POST http://localhost:8080/api/commandes/1/cancel

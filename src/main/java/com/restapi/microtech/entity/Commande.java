@@ -1,8 +1,12 @@
 package com.restapi.microtech.entity;
 
+import com.restapi.microtech.custom.CreatedAt;
+import com.restapi.microtech.custom.UpdatedAt;
+import com.restapi.microtech.custom.listeners.AuditListener;
 import com.restapi.microtech.entity.enums.StatutCommande;
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +14,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Data
+@EntityListeners(AuditListener.class)
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -54,4 +60,10 @@ public class Commande {
 
     @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
     private List<Paiement> paiements;
+
+    @CreatedAt
+    private LocalDateTime createdAt;
+
+    @UpdatedAt
+    private LocalDateTime updatedAt;
 }
