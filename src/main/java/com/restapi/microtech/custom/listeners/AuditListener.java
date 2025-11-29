@@ -1,7 +1,6 @@
 package com.restapi.microtech.custom.listeners;
 
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
 

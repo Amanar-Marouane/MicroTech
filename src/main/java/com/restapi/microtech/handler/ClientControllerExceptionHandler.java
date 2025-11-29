@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.restapi.microtech.controller.ClientController;
+import com.restapi.microtech.exception.ForbiddenException;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,6 +54,12 @@ public class ClientControllerExceptionHandler {
 
         errorBody.put("errors", fieldErrors);
         return errorBody;
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Map<String, Object> handleForbiddenException(ForbiddenException ex, HttpServletRequest request) {
+        return createErrorBody(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI());
     }
 
     @ExceptionHandler(Exception.class)
